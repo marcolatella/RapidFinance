@@ -1,0 +1,35 @@
+
+summary_endpt: '/v10/finance/quoteSummary/'
+summary_modules: ['assetProfile',
+                  'summaryProfile',
+                  'summaryDetail',
+                  'esgScores',
+                  'price',
+                  'incomeStatementHistory',
+                  'incomeStatementHistoryQuarterly',
+                  'balanceSheetHistory',
+                  'balanceSheetHistoryQuarterly',
+                  'cashflowStatementHistory',
+                  'cashflowStatementHistoryQuarterly',
+                  'defaultKeyStatistics',
+                  'financialData',
+                  'calendarEvents',
+                  'secFilings',
+                  'recommendationTrend',
+                  'upgradeDowngradeHistory',
+                  'institutionOwnership',
+                  'fundOwnership',
+                  'majorDirectHolders',
+                  'majorHoldersBreakdown',
+                  'insiderTransactions',
+                  'insiderHolders',
+                  'netSharePurchaseActivity',
+                  'earnings',
+                  'earningsHistory',
+                  'earningsTrend',
+                  'industryTrend',
+                  'indexTrend',
+                  'sectorTrend']
+
+options_contracts: '/v7/finance/options/'
+chart: '/v8/finance/chart/'

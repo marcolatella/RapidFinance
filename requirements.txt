@@ -1,0 +1,5 @@
+matplotlib
+setuptools
+requests
+pandas
+PyYAML

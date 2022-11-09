@@ -13,7 +13,9 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 install_requirements = [
     'pandas',
     'requests',
-    'numpy'
+    'numpy',
+    'matplotlib',
+    'PyYAML'
 ]
 
 setup(

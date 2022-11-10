@@ -33,6 +33,7 @@ class Ticker:
         :param width: The width of the plot in inches, defaults to 10 (optional)
         :param height: The height of the figure in inches, defaults to 7 (optional)
         """
+        assert isinstance(columns, list)
         fig, ax = plt.subplots(figsize=(width, height))
         for col in columns:
             if col in self.history.columns:
@@ -67,7 +68,10 @@ class Ticker:
         """
         # Possible inputs for &interval=: 1m, 5m, 15m, 30m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
         start = int(datetime.strptime(start, '%Y/%m/%d').timestamp())
-        end = int(datetime.strptime(end, '%Y/%m/%d').timestamp())
+        if end == "now":
+            end = int(datetime.utcnow().timestamp())
+        else:
+            end = int(datetime.strptime(end, '%Y/%m/%d').timestamp())
         get_req = config.yahoo_host + endpoints.chart + self.symbol
         params = {'symbol': self.symbol, 'period1': start, 'period2': end, 'interval': interval}
         if pre_post:

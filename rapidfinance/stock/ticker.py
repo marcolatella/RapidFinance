@@ -12,17 +12,17 @@ class Ticker:
     def __init__(self, symbol):
         assert isinstance(symbol, str)
         self.symbol = symbol
-        self.info = self.get_summary()
-        if hasattr(self.info, 'summaryProfile'):
-            self.profile_info = self.info.summaryProfile
+        __info = self.get_summary()
+        if hasattr(__info, 'summaryProfile'):
+            self.profile_info = __info.summaryProfile
             if hasattr(self.profile_info, 'sector'):
-                self.sector = self.info.summaryProfile.sector
-        if hasattr(self.info.price, 'shortName'):
-            self.shortName = self.info.price.shortName
-        if hasattr(self.info.price, 'currency'):
-            self.currency = self.info.price.currency
-        if hasattr(self.info.price, 'currencySymbol'):
-            self.currencySymbol = self.info.price.currencySymbol
+                self.sector = __info.summaryProfile.sector
+        if hasattr(__info.price, 'shortName'):
+            self.shortName = __info.price.shortName
+        if hasattr(__info.price, 'currency'):
+            self.currency = __info.price.currency
+        if hasattr(__info.price, 'currencySymbol'):
+            self.currencySymbol = __info.price.currencySymbol
         self.history = None
 
     def plot(self, columns, width=10, height=7):
@@ -124,6 +124,6 @@ class Ticker:
 
     @property
     def summary(self):
-        return f"{self.info}"
+        return f"{self.get_summary()}"
 
 # "set-cookie:B=xxxxxxxx&b=3&s=qf; expires=Fri, 18-May-2018 00:00:00 GMT; path=/; domain=.yahoo.com"

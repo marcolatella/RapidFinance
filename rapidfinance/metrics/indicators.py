@@ -1,8 +1,8 @@
-def compute_MA(data, period, column="adjclose"):
-    if column == 'adjclose' and column not in data.columns:
+def compute_MA(df, period, column="adjclose"):
+    if column == 'adjclose' and column not in df.columns:
         column = 'close'
         print("[!] Warning! Column 'adjclose' not in dataframe. Using 'close'.")
-    col = data[column]
-    data['MA'+str(period)] = col.rolling(window=period).mean()
-    return data
+    col = df[column]
+    df['MA' + str(period)] = col.rolling(window=period).mean()
+    return df
 

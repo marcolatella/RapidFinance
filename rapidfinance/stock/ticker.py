@@ -1,4 +1,4 @@
-import requests
+import requests, re, json
 import pandas as pd
 import matplotlib.pyplot as plt
 from rapidfinance import config, endpoints
@@ -49,7 +49,8 @@ class Ticker:
         get_req = config.yahoo_host + endpoints.summary_endpt + self.symbol
         modules = ','.join(endpoints.summary_modules)
         params = {'modules': modules}
-        response = self.send_request(get_req, params)
+        cookies = requests.get("https://fc.yahoo.com/").cookies.get_dict()
+        response = self.send_request(get_req, params, cookies)
         summary = to_dict(response.text)
         if summary['quoteSummary']['result'] is None:
             raise Exception(summary['quoteSummary']['error'])
@@ -118,9 +119,41 @@ class Ticker:
                f"Symbol: {self.symbol}\n" \
                f"Currency: {self.currency}"
 
-    def send_request(self, req, params):
+    def get_yahoo_cookie(self):
+        response = requests.get(
+            "https://fc.yahoo.com", headers=config.header, allow_redirects=True
+        )
+
+        if not response.cookies:
+            raise Exception("Failed to obtain Yahoo auth cookie.")
+
+        cookie = list(response.cookies)[0]
+
+        return cookie
+
+    def get_yahoo_crumb(self, cookie):
+        crumb_response = requests.get(
+            "https://query1.finance.yahoo.com/v1/test/getcrumb",
+            headers=config.header,
+            cookies={cookie.name: cookie.value},
+            allow_redirects=True,
+        )
+        crumb = crumb_response.text
+
+        if crumb is None:
+            raise Exception("Failed to retrieve Yahoo crumb.")
+
+        return crumb
+
+    def send_request(self, req, params=None, cookies=None):
         url = req
-        return requests.request("GET", url, headers=config.header, params=params)
+        coo = self.get_yahoo_cookie()
+        cookie = {}
+        cookie[coo.name] = coo.value
+        crumb = self.get_yahoo_crumb(coo)
+        params['crumb'] = crumb
+        return requests.request("GET", url, headers=config.header, params=params, cookies=cookie,
+                                allow_redirects=True)
 
     @property
     def summary(self):
